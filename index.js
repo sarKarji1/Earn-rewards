@@ -10,7 +10,7 @@ res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 app.get('/nadra', (req, res) => {
-  res.sendFile(path.join(__drname, 'public', 'nadra.html'));
+  res.sendFile(path.join(__dirname, 'public', 'nadra.html'));
 });
 
 
