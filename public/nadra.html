@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bandaheali Nadra Data Lookup</title>
+    <title>Bandaheali VIP Nadra Data</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -14,214 +14,162 @@
             --dark: #12005e;
             --success: #4caf50;
             --error: #f44336;
-            --warning: #ff9800;
         }
         
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
             margin: 0;
             padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            color: #333;
+            color: white;
         }
         
-        .container {
+        .vip-container {
             width: 90%;
-            max-width: 800px;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            max-width: 500px;
+            background: rgba(26, 26, 46, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 0 30px rgba(233, 30, 99, 0.3);
             overflow: hidden;
             padding: 30px;
             position: relative;
+            border: 1px solid rgba(233, 30, 99, 0.5);
         }
         
-        .header {
+        .vip-header {
             text-align: center;
             margin-bottom: 30px;
             position: relative;
         }
         
-        .header h1 {
-            font-size: 2.5rem;
+        .vip-header h1 {
+            font-size: 2rem;
             margin: 0;
-            color: var(--primary);
-            background: linear-gradient(to right, var(--primary), var(--accent));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: white;
             font-weight: 700;
+            letter-spacing: 1px;
         }
         
-        .header p {
-            font-size: 1.1rem;
-            color: #666;
+        .vip-header p {
+            font-size: 0.9rem;
+            color: #aaa;
             margin-top: 10px;
         }
         
-        .header::after {
+        .vip-header::after {
             content: '';
             display: block;
-            width: 150px;
-            height: 4px;
-            background: linear-gradient(to right, var(--primary), var(--accent));
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(to right, var(--accent), var(--primary));
             margin: 15px auto;
             border-radius: 3px;
         }
         
-        .search-container {
-            background: rgba(123, 31, 162, 0.1);
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 30px;
-            border: 1px solid rgba(123, 31, 162, 0.2);
+        .vip-input-container {
+            margin-bottom: 25px;
         }
         
-        .input-group {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-        
-        .input-field {
-            flex: 1;
-            min-width: 200px;
-        }
-        
-        .input-field label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: 600;
-            color: var(--primary);
-        }
-        
-        .input-field input {
+        .vip-input {
             width: 100%;
-            padding: 12px 15px;
+            padding: 15px;
             border-radius: 8px;
-            border: 2px solid #ddd;
-            font-size: 1rem;
-            transition: all 0.3s;
-        }
-        
-        .input-field input:focus {
-            border-color: var(--primary);
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(123, 31, 162, 0.2);
-        }
-        
-        .search-btn {
-            width: 100%;
-            padding: 12px;
-            background: linear-gradient(to right, var(--primary), var(--secondary));
-            background: linear-gradient(to right, var(--primary), var(--secondary));
-            color: white;
             border: none;
-            border-radius: 8px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-        
-        .search-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(123, 31, 162, 0.4);
-        }
-        
-        .search-btn:active {
-            transform: translateY(0);
-        }
-        
-        .results-container {
-            display: none;
-            background: white;
-            border-radius: 10px;
-            padding: 20px;
-            border: 1px solid #eee;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
-            margin-bottom: 20px;
-        }
-        
-        .result-item {
-            margin-bottom: 15px;
-            padding-bottom: 15px;
-            border-bottom: 1px dashed #eee;
-        }
-        
-        .result-item:last-child {
-            border-bottom: none;
-            margin-bottom: 0;
-            padding-bottom: 0;
-        }
-        
-        .result-label {
-            font-weight: 600;
-            color: var(--primary);
-            display: inline-block;
-            min-width: 100px;
-        }
-        
-        .result-value {
-            color: #555;
-        }
-        
-        .error-container {
-            display: none;
-            background: rgba(244, 67, 54, 0.1);
-            border-radius: 10px;
-            padding: 20px;
-            border: 1px solid rgba(244, 67, 54, 0.2);
-            margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1rem;
             text-align: center;
-        }
-        
-        .error-icon {
-            font-size: 3rem;
-            color: var(--error);
-            margin-bottom: 15px;
-        }
-        
-        .error-message {
-            color: var(--error);
-            font-weight: 600;
             margin-bottom: 10px;
         }
         
-        .error-contact {
-            color: #666;
-            font-size: 0.9rem;
+        .vip-input::placeholder {
+            color: #aaa;
         }
         
-        .error-contact a {
-            color: var(--primary);
-            text-decoration: none;
+        .vip-input:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 0 2px var(--accent);
+        }
+        
+        .vip-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(45deg, var(--accent), #c2185b);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
             font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
         }
         
-        .error-contact a:hover {
-            text-decoration: underline;
+        .vip-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(233, 30, 99, 0.4);
         }
         
-        .loading {
+        .vip-results {
+            display: none;
+            background: rgba(30, 30, 60, 0.7);
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+            border: 1px solid rgba(233, 30, 99, 0.3);
+        }
+        
+        .vip-result-item {
+            margin-bottom: 15px;
+        }
+        
+        .vip-result-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .vip-result-label {
+            color: var(--accent);
+            font-weight: 600;
+            display: inline-block;
+            min-width: 80px;
+        }
+        
+        .vip-result-value {
+            color: white;
+            word-break: break-all;
+        }
+        
+        .vip-error {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            background: rgba(244, 67, 54, 0.1);
+            border-radius: 8px;
+            margin-top: 20px;
+            border: 1px solid rgba(244, 67, 54, 0.3);
+        }
+        
+        .vip-error-icon {
+            font-size: 2rem;
+            color: var(--error);
+            margin-bottom: 10px;
+        }
+        
+        .vip-loading {
             display: none;
             text-align: center;
             padding: 20px;
         }
         
-        .spinner {
-            width: 40px;
-            height: 40px;
-            border: 4px solid rgba(123, 31, 162, 0.2);
-            border-top-color: var(--primary);
+        .vip-spinner {
+            width: 30px;
+            height: 30px;
+            border: 3px solid rgba(233, 30, 99, 0.2);
+            border-top-color: var(--accent);
             border-radius: 50%;
             animation: spin 1s linear infinite;
             margin: 0 auto 15px;
@@ -231,123 +179,76 @@
             to { transform: rotate(360deg); }
         }
         
-        .disclaimer {
-            font-size: 0.8rem;
-            color: #666;
-            text-align: center;
-            margin-top: 30px;
-            padding-top: 15px;
-            border-top: 1px solid #eee;
-        }
-        
-        .premium-badge {
+        .vip-badge {
             position: absolute;
-            top: 15px;
-            right: 15px;
+            top: -10px;
+            right: 20px;
             background: linear-gradient(45deg, #ff9800, #ff5722);
             color: white;
             padding: 5px 15px;
             border-radius: 20px;
-            font-size: 0.8rem;
+            font-size: 0.7rem;
             font-weight: 600;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
         }
         
-        .whatsapp-channel {
-            display: inline-block;
-            margin-top: 15px;
-            background: #25D366;
-            color: white;
-            padding: 8px 15px;
-            border-radius: 5px;
+        .vip-contact {
+            font-size: 0.8rem;
+            color: #aaa;
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .vip-contact a {
+            color: var(--accent);
             text-decoration: none;
             font-weight: 600;
-            transition: all 0.3s;
-        }
-        
-        .whatsapp-channel:hover {
-            background: #128C7E;
-            transform: translateY(-2px);
-        }
-        
-        @media (max-width: 768px) {
-            .container {
-                padding: 20px;
-            }
-            
-            .header h1 {
-                font-size: 2rem;
-            }
-            
-            .input-field {
-                min-width: 100%;
-            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <span class="premium-badge">
-            <i class="fas fa-crown"></i> Bandaheali
+    <div class="vip-container">
+        <span class="vip-badge">
+            <i class="fas fa-crown"></i> BANDAHEALI VIP
         </span>
         
-        <div class="header">
-            <h1>Nadra Data Lookup</h1>
-            <p>Find CNIC and mobile number details with Bandaheali</p>
+        <div class="vip-header">
+            <h1>NADRA DATA LOOKUP</h1>
+            <p>Enter mobile number (without 0) or CNIC number</p>
         </div>
         
-        <div class="search-container">
-            <div class="input-group">
-                <div class="input-field">
-                    <label for="searchInput"><i class="fas fa-mobile-alt"></i> Mobile Number</label>
-                    <input type="text" id="searchInput" placeholder="e.g. 03001234567" maxlength="11">
-                </div>
-                <div class="input-field">
-                    <label for="cnicInput"><i class="fas fa-id-card"></i> CNIC (without dashes)</label>
-                    <input type="text" id="cnicInput" placeholder="e.g. 4220112345671" maxlength="13">
-                </div>
-            </div>
-            
-            <button class="search-btn" id="searchBtn">
-                <i class="fas fa-search"></i> Search Data
+        <div class="vip-input-container">
+            <input type="text" class="vip-input" id="searchInput" placeholder="e.g. 3001234567 or 4220112345671" maxlength="13">
+            <button class="vip-btn" id="searchBtn">
+                <i class="fas fa-search"></i> SEARCH DATA
             </button>
         </div>
         
-        <div class="loading" id="loading">
-            <div class="spinner"></div>
-            <p>Fetching data from Nadra records...</p>
+        <div class="vip-loading" id="loading">
+            <div class="vip-spinner"></div>
+            <p>Accessing secure database...</p>
         </div>
         
-        <div class="results-container" id="resultsContainer">
-            <h3 style="color: var(--primary); margin-top: 0;">Search Results</h3>
+        <div class="vip-results" id="resultsContainer">
             <div id="resultsContent"></div>
         </div>
         
-        <div class="error-container" id="errorContainer">
-            <div class="error-icon">
-                <i class="fas fa-exclamation-triangle"></i>
+        <div class="vip-error" id="errorContainer">
+            <div class="vip-error-icon">
+                <i class="fas fa-exclamation-circle"></i>
             </div>
-            <div class="error-message" id="errorMessage">
-                Data Not Found
+            <div id="errorMessage">
+                Data not found in our database
             </div>
-            <div class="error-contact">
-                For paid SIM data, contact <strong>@Sarkar-Bandaheali</strong>
-                <br>
-                <a href="https://whatsapp.com/channel/0029VbAILzC4CrfjeUn3Ry1N" class="whatsapp-channel" target="_blank">
-                    <i class="fab fa-whatsapp"></i> Join our WhatsApp Channel
-                </a>
+            <div class="vip-contact">
+                Contact <a href="#">@Sarkar-Bandaheali</a> for assistance
             </div>
-        </div>
-        
-        <div class="disclaimer">
-            This tool fetches data from official sources. Use responsibly and in compliance with all applicable laws.
         </div>
     </div>
 
     <script>
         // DOM elements
         const searchInput = document.getElementById('searchInput');
-        const cnicInput = document.getElementById('cnicInput');
         const searchBtn = document.getElementById('searchBtn');
         const loading = document.getElementById('loading');
         const resultsContainer = document.getElementById('resultsContainer');
@@ -360,12 +261,11 @@
         
         // Search function
         async function searchData() {
-            const mobileNumber = searchInput.value.trim();
-            const cnicNumber = cnicInput.value.trim();
+            const input = searchInput.value.trim();
             
             // Validate input
-            if (!mobileNumber && !cnicNumber) {
-                alert('Please enter either a mobile number or CNIC');
+            if (!input) {
+                alert('Please enter a mobile number or CNIC');
                 return;
             }
             
@@ -375,14 +275,13 @@
             errorContainer.style.display = 'none';
             
             try {
-                let apiUrl;
-                if (mobileNumber) {
-                    apiUrl = API_URL + mobileNumber;
-                } else {
-                    apiUrl = API_URL + cnicNumber;
+                // Format input (add 0 if mobile number)
+                let searchValue = input;
+                if (input.length === 10 && /^3\d{9}$/.test(input)) {
+                    searchValue = '0' + input;
                 }
                 
-                const response = await fetch(apiUrl);
+                const response = await fetch(API_URL + searchValue);
                 const data = await response.json();
                 
                 // Hide loading
@@ -391,7 +290,7 @@
                 if (data.status === 'success') {
                     if (data.data[0].Name === '❌ Data Not Found') {
                         // Show error
-                        errorMessage.textContent = '⚠️ This number is not available in our database!';
+                        errorMessage.textContent = '⚠️ Data not found in our database';
                         errorContainer.style.display = 'block';
                     } else {
                         // Display results
@@ -404,92 +303,58 @@
             } catch (error) {
                 console.error('Error:', error);
                 loading.style.display = 'none';
-                errorMessage.textContent = 'An error occurred while fetching data. Please try again.';
+                errorMessage.textContent = 'Error accessing database. Try again.';
                 errorContainer.style.display = 'block';
             }
         }
         
-        // Display results
+        // Display results in VIP format
         function displayResults(data) {
             let html = '';
             
-            data.forEach((item, index) => {
+            data.forEach(item => {
                 html += `
-                    <div class="result-item">
-                        <h4 style="color: var(--secondary);">Record ${index + 1}</h4>
-                        <p><span class="result-label">Name:</span> <span class="result-value">${item.Name}</span></p>
-                        <p><span class="result-label">Mobile:</span> <span class="result-value">${item.Mobile}</span></p>
-                        <p><span class="result-label">CNIC:</span> <span class="result-value">${item.CNIC}</span></p>
-                        <p><span class="result-label">Operator:</span> <span class="result-value">${item.Operator}</span></p>
-                        <p><span class="result-label">Address:</span> <span class="result-value">${item.Address}</span></p>
+                    <div class="vip-result-item">
+                        <p><span class="vip-result-label">Name:</span> <span class="vip-result-value">${item.Name}</span></p>
+                        <p><span class="vip-result-label">Mobile:</span> <span class="vip-result-value">${item.Mobile}</span></p>
+                        <p><span class="vip-result-label">CNIC:</span> <span class="vip-result-value">${item.CNIC}</span></p>
+                        <p><span class="vip-result-label">Operator:</span> <span class="vip-result-value">${item.Operator}</span></p>
+                        <p><span class="vip-result-label">Address:</span> <span class="vip-result-value">${item.Address}</span></p>
                     </div>
+                    <hr style="border-color: rgba(233, 30, 99, 0.2); margin: 15px 0;">
                 `;
             });
             
+            // Remove last hr
+            html = html.replace(/<hr[^>]*>$/, '');
             resultsContent.innerHTML = html;
         }
         
         // Input validation
-        function validateInput(input, type) {
-            let value = input.value.trim();
+        function validateInput() {
+            let value = searchInput.value.trim();
             
-            if (type === 'mobile') {
-                // Remove any non-digit characters
-                value = value.replace(/\D/g, '');
-                
-                // Ensure it starts with 03 and has 11 digits
-                if (value.length > 0 && !value.startsWith('03')) {
-                    value = '03' + value.replace(/^03/, '');
-                }
-                
-                // Limit to 11 digits
-                if (value.length > 11) {
-                    value = value.substring(0, 11);
-                }
-            } else if (type === 'cnic') {
-                // Remove any non-digit characters
-                value = value.replace(/\D/g, '');
-                
-                // Limit to 13 digits
-                if (value.length > 13) {
-                    value = value.substring(0, 13);
-                }
+            // Remove any non-digit characters
+            value = value.replace(/\D/g, '');
+            
+            // Limit to 13 digits (max for CNIC)
+            if (value.length > 13) {
+                value = value.substring(0, 13);
             }
             
-            input.value = value;
+            searchInput.value = value;
         }
         
         // Event listeners
         searchBtn.addEventListener('click', searchData);
         
-        searchInput.addEventListener('input', () => {
-            validateInput(searchInput, 'mobile');
-            // Clear CNIC input when mobile is being entered
-            if (searchInput.value.trim()) {
-                cnicInput.value = '';
-            }
-        });
+        searchInput.addEventListener('input', validateInput);
         
-        cnicInput.addEventListener('input', () => {
-            validateInput(cnicInput, 'cnic');
-            // Clear mobile input when CNIC is being entered
-            if (cnicInput.value.trim()) {
-                searchInput.value = '';
-            }
-        });
-        
-        // Allow search on Enter key
         searchInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                searchData();
-            }
-        });
-        
-        cnicInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {
                 searchData();
             }
         });
     </script>
 </body>
-  </html>
+</html>
