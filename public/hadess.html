@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Hadith | Premium</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --gold: #FFD700;
+            --dark-gold: #C5A42B;
+            --maroon: #800000;
+            --cream: #FFF8E7;
+            --dark-green: #013220;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: var(--cream);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-image: url('https://images.unsplash.com/photo-1519817650390-64a93db51149?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            position: relative;
+        }
+        
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 0;
+        }
+        
+        .container {
+            position: relative;
+            z-index: 1;
+            width: 90%;
+            max-width: 800px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid var(--gold);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            overflow: hidden;
+            padding: 30px;
+            color: white;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin: 0;
+            color: var(--gold);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+        
+        .header p {
+            font-size: 1.1rem;
+            color: #ddd;
+            margin-top: 10px;
+        }
+        
+        .header::after {
+            content: '';
+            display: block;
+            width: 150px;
+            height: 3px;
+            background: linear-gradient(to right, var(--gold), var(--maroon));
+            margin: 15px auto;
+            border-radius: 3px;
+        }
+        
+        .hadith-container {
+            background: rgba(1, 50, 32, 0.7);
+            border-radius: 15px;
+            padding: 30px;
+            border: 1px solid var(--gold);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            position: relative;
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .hadith-container::before {
+            content: '\f10a';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 3rem;
+            color: rgba(255, 215, 0, 0.2);
+            z-index: 0;
+        }
+        
+        .hadith-container::after {
+            content: '\f10b';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            font-size: 3rem;
+            color: rgba(255, 215, 0, 0.2);
+            z-index: 0;
+        }
+        
+        .hadith-text {
+            font-size: 1.5rem;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            font-style: italic;
+        }
+        
+        .hadith-reference {
+            text-align: right;
+            font-size: 1.1rem;
+            color: var(--gold);
+            margin-top: 20px;
+            position: relative;
+            z-index: 1;
+            font-weight: bold;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .btn-new {
+            background: linear-gradient(to right, var(--gold), var(--dark-gold));
+            color: var(--dark-green);
+        }
+        
+        .btn-share {
+            background: linear-gradient(to right, var(--maroon), #500000);
+            color: white;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .btn:active {
+            transform: translateY(1px);
+        }
+        
+        .date-display {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 1rem;
+            color: #ccc;
+        }
+        
+        .premium-badge {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: linear-gradient(45deg, var(--gold), var(--dark-gold));
+            color: var(--dark-green);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.8rem;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .floating-icons {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        .floating-icon {
+            position: absolute;
+            font-size: 1.5rem;
+            opacity: 0.1;
+            color: var(--gold);
+            animation: float 15s linear infinite;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) translateX(0);
+            }
+            100% {
+                transform: translateY(-100px) translateX(calc(var(--random-x) * 100px));
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .hadith-text {
+                font-size: 1.2rem;
+            }
+            
+            .hadith-reference {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <span class="premium-badge">
+            <i class="fas fa-crown"></i> VIP EDITION
+        </span>
+        
+        <div class="floating-icons" id="floatingIcons"></div>
+        
+        <div class="header">
+            <h1>Daily Hadith</h1>
+            <p>Wisdom from the Prophet Muhammad (PBUH)</p>
+        </div>
+        
+        <div class="hadith-container">
+            <div class="hadith-text" id="hadithText">
+                "The most perfect believer in faith is the one who is best in moral character..."
+            </div>
+            <div class="hadith-reference" id="hadithReference">
+                Sunan Abi Dawud 4682
+            </div>
+        </div>
+        
+        <div class="date-display" id="dateDisplay">
+            Today, June 15, 2023
+        </div>
+        
+        <div class="controls">
+            <button class="btn btn-new" id="newHadithBtn">
+                <i class="fas fa-sync-alt"></i> New Hadith
+            </button>
+            <button class="btn btn-share" id="shareBtn">
+                <i class="fas fa-share-alt"></i> Share
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Hadith database
+        const hadiths = [
+            {
+                text: "The most perfect believer in faith is the one who is best in moral character, and the best of you are those who are best to their wives.",
+                reference: "Sunan Abi Dawud 4682"
+            },
+            {
+                text: "None of you truly believes until he loves for his brother what he loves for himself.",
+                reference: "Sahih al-Bukhari 13"
+            },
+            {
+                text: "The strong is not the one who overcomes the people by his strength, but the strong is the one who controls himself while in anger.",
+                reference: "Sahih al-Bukhari 6114"
+            },
+            {
+                text: "The world is sweet and green (alluring), and verily Allah is going to install you as vicegerents in it in order to see how you act.",
+                reference: "Sahih Muslim 2742"
+            },
+            {
+                text: "The best among you are those who have the best manners and character.",
+                reference: "Sahih al-Bukhari 3559"
+            },
+            {
+                text: "Whoever believes in Allah and the Last Day, let him speak good or remain silent.",
+                reference: "Sahih al-Bukhari 6475"
+            },
+            {
+                text: "The merciful will be shown mercy by the Most Merciful. Be merciful to those on the earth and the One above the heavens will have mercy upon you.",
+                reference: "Sunan At-Tirmidhi 1924"
+            },
+            {
+                text: "Do not be people without minds of your own, saying that if others treat you well you will treat them well, and that if they do wrong you will do wrong. But accustom yourselves to do good if people do good and not to do wrong if they do evil.",
+                reference: "Sunan At-Tirmidhi 2007"
+            },
+            {
+                text: "The best charity is that given when one is in need and struggling.",
+                reference: "Sahih al-Bukhari 1419"
+            },
+            {
+                text: "The best of you are those who are best to their families, and I am the best of you to my family.",
+                reference: "Sunan At-Tirmidhi 3895"
+            }
+        ];
+        
+        // DOM elements
+        const hadithText = document.getElementById('hadithText');
+        const hadithReference = document.getElementById('hadithReference');
+        const newHadithBtn = document.getElementById('newHadithBtn');
+        const shareBtn = document.getElementById('shareBtn');
+        const dateDisplay = document.getElementById('dateDisplay');
+        const floatingIcons = document.getElementById('floatingIcons');
+        
+        // Set current date
+        const today = new Date();
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        dateDisplay.textContent = today.toLocaleDateString('en-US', options);
+        
+        // Create floating icons
+        function createFloatingIcons() {
+            const icons = ['', '', '', '', '', '', '', ''];
+            
+            for (let i = 0; i < 15; i++) {
+                const icon = document.createElement('div');
+                icon.className = 'floating-icon';
+                icon.innerHTML = `<i class="fas fa-mosque"></i>`;
+                icon.style.setProperty('--random-x', Math.random() * 2 - 1);
+                icon.style.left = `${Math.random() * 100}%`;
+                icon.style.animationDuration = `${10 + Math.random() * 20}s`;
+                icon.style.animationDelay = `${Math.random() * 5}s`;
+                floatingIcons.appendChild(icon);
+            }
+        }
+        
+        createFloatingIcons();
+        
+        // Get random hadith
+        function getRandomHadith() {
+            const randomIndex = Math.floor(Math.random() * hadiths.length);
+            return hadiths[randomIndex];
+        }
+        
+        // Display new hadith
+        function displayNewHadith() {
+            const hadith = getRandomHadith();
+            hadithText.textContent = `"${hadith.text}"`;
+            hadithReference.textContent = hadith.reference;
+            
+            // Add animation effect
+            hadithText.style.animation = 'none';
+            hadithReference.style.animation = 'none';
+            setTimeout(() => {
+                hadithText.style.animation = 'fadeIn 1s ease-in-out';
+                hadithReference.style.animation = 'fadeIn 1s ease-in-out';
+            }, 10);
+        }
+        
+        // Share functionality
+        function shareHadith() {
+            const shareText = `${hadithText.textContent} - ${hadithReference.textContent}`;
+            
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Daily Hadith',
+                    text: shareText,
+                    url: window.location.href
+                }).catch(err => {
+                    console.log('Error sharing:', err);
+                });
+            } else {
+                // Fallback for browsers that don't support Web Share API
+                const textArea = document.createElement('textarea');
+                textArea.value = shareText;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                alert('Hadith copied to clipboard!');
+            }
+        }
+        
+        // Event listeners
+        newHadithBtn.addEventListener('click', displayNewHadith);
+        shareBtn.addEventListener('click', shareHadith);
+        
+        // Display initial hadith
+        displayNewHadith();
+    </script>
+</body>
+  </html>
