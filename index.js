@@ -10,7 +10,7 @@ res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 app.get('/hadees', (req, res) => {
-  res.senFile(path.join(__dirname, 'public', 'hadess.html'));
+  res.sendFile(path.join(__dirname, 'public', 'hadess.html'));
 });
 
 app.listen(port, () => {
