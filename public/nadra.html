@@ -159,6 +159,22 @@
             margin-bottom: 10px;
         }
         
+        .vip-error-message {
+            margin-bottom: 15px;
+            color: #ff6b6b;
+        }
+        
+        .vip-whatsapp {
+            display: inline-block;
+            background: #25D366;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+        
         .vip-loading {
             display: none;
             text-align: center;
@@ -192,17 +208,9 @@
             box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
         }
         
-        .vip-contact {
-            font-size: 0.8rem;
-            color: #aaa;
-            text-align: center;
-            margin-top: 20px;
-        }
-        
-        .vip-contact a {
-            color: var(--accent);
-            text-decoration: none;
-            font-weight: 600;
+        hr {
+            border-color: rgba(233, 30, 99, 0.2);
+            margin: 15px 0;
         }
     </style>
 </head>
@@ -237,11 +245,15 @@
             <div class="vip-error-icon">
                 <i class="fas fa-exclamation-circle"></i>
             </div>
-            <div id="errorMessage">
+            <div class="vip-error-message" id="errorMessage">
                 Data not found in our database
             </div>
-            <div class="vip-contact">
-                Contact <a href="#">@Sarkar-Bandaheali</a> for assistance
+            <div>
+                For premium SIM data, contact <strong>@Sarkar-Bandaheali</strong>
+                <br>
+                <a href="https://whatsapp.com/channel/0029VbAILzC4CrfjeUn3Ry1N" class="vip-whatsapp" target="_blank">
+                    <i class="fab fa-whatsapp"></i> Join our WhatsApp Channel
+                </a>
             </div>
         </div>
     </div>
@@ -289,8 +301,8 @@
                 
                 if (data.status === 'success') {
                     if (data.data[0].Name === '❌ Data Not Found') {
-                        // Show error
-                        errorMessage.textContent = '⚠️ Data not found in our database';
+                        // Show custom error message
+                        errorMessage.innerHTML = '⚠️ This number is not available in our database!';
                         errorContainer.style.display = 'block';
                     } else {
                         // Display results
@@ -303,7 +315,7 @@
             } catch (error) {
                 console.error('Error:', error);
                 loading.style.display = 'none';
-                errorMessage.textContent = 'Error accessing database. Try again.';
+                errorMessage.innerHTML = 'Error accessing database. Please try again.';
                 errorContainer.style.display = 'block';
             }
         }
@@ -313,6 +325,9 @@
             let html = '';
             
             data.forEach(item => {
+                // Skip entries with "DATA NOT RECIEVED FROM NADRA"
+                if (item.Name === 'DATA NOT RECIEVED FROM NADRA') return;
+                
                 html += `
                     <div class="vip-result-item">
                         <p><span class="vip-result-label">Name:</span> <span class="vip-result-value">${item.Name}</span></p>
@@ -321,13 +336,23 @@
                         <p><span class="vip-result-label">Operator:</span> <span class="vip-result-value">${item.Operator}</span></p>
                         <p><span class="vip-result-label">Address:</span> <span class="vip-result-value">${item.Address}</span></p>
                     </div>
-                    <hr style="border-color: rgba(233, 30, 99, 0.2); margin: 15px 0;">
+                    <hr>
                 `;
             });
             
-            // Remove last hr
-            html = html.replace(/<hr[^>]*>$/, '');
-            resultsContent.innerHTML = html;
+            // Remove last hr if exists
+            if (html.endsWith('<hr>')) {
+                html = html.slice(0, -4);
+            }
+            
+            // If no valid results found (all were filtered out)
+            if (html.trim() === '') {
+                errorMessage.innerHTML = 'No valid data received from NADRA';
+                errorContainer.style.display = 'block';
+            } else {
+                resultsContent.innerHTML = html;
+                resultsContainer.style.display = 'block';
+            }
         }
         
         // Input validation
@@ -357,4 +382,4 @@
         });
     </script>
 </body>
-</html>
+    </html>
