@@ -9,6 +9,11 @@ app.get('/', (req, res) => {
 res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
+app.get('/nadra', (req, res) => {
+  res.sendFile(path.join(__drname, 'public', 'nadra.html'));
+});
+
+
 app.get('/hadees', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'hadess.html'));
 });
