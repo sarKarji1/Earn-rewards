@@ -18,7 +18,7 @@ app.get('/sbukhari', (req, res) => {
 });
 
 app.get('/hadith-qadsi', (req, res) => {
-  res.SendFile(path.join(__dirname, 'public', 'hadees3.html'));
+  res.sendFile(path.join(__dirname, 'public', 'hadees3.html'));
 });
 
 app.listen(port, () => {
