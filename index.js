@@ -13,6 +13,10 @@ app.get('/hadees', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'hadess.html'));
 });
 
+app.get('/sbukhari', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'check.html'));
+});
+
 app.listen(port, () => {
 console.log('here we go port is', port);
 });
