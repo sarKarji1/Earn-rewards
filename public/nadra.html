@@ -51,6 +51,15 @@
             text-align: center;
             padding: 20px;
         }
+        .not-found {
+            color: #e67e22;
+        }
+        .contact-info {
+            margin-top: 15px;
+            padding: 10px;
+            background-color: #eaf2f8;
+            border-radius: 5px;
+        }
         .search-box {
             display: flex;
             gap: 10px;
@@ -73,6 +82,13 @@
         button:hover {
             background-color: #2980b9;
         }
+        a {
+            color: #3498db;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
@@ -80,7 +96,7 @@
         <h1>NADRA Information Lookup</h1>
         
         <div class="search-box">
-            <input type="text" id="cnicInput" placeholder="Enter CNIC number (e.g., 3003238250)" value="3003238250">
+            <input type="text" id="cnicInput" placeholder="Enter CNIC number (e.g., 3253617422)" value="">
             <button onclick="fetchData()">Search</button>
         </div>
         
@@ -101,10 +117,8 @@
             
             resultContainer.innerHTML = '<div class="loading">Loading data...</div>';
             
-            // Try direct fetch first
             const apiUrl = `https://fam-official.serv00.net/sim/api.php?num=${cnic}`;
             
-            // First attempt - direct fetch
             fetch(apiUrl)
                 .then(response => {
                     if (!response.ok) {
@@ -113,15 +127,18 @@
                     return response.json();
                 })
                 .then(data => {
-                    if (data.status === "success" && data.data && data.data.length > 0) {
-                        displayData(data.data[0]);
+                    if (data.status === "success") {
+                        if (data.data && data.data.length > 0) {
+                            displayData(data.data[0]);
+                        } else {
+                            displayNotFound();
+                        }
                     } else {
-                        resultContainer.innerHTML = '<div class="error">No data found for this CNIC</div>';
+                        displayNotFound();
                     }
                 })
                 .catch(error => {
                     console.log('Direct fetch failed, trying CORS proxy...');
-                    // If direct fetch fails, try using a CORS proxy
                     const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(apiUrl)}`;
                     
                     fetch(proxyUrl)
@@ -134,32 +151,22 @@
                         .then(data => {
                             try {
                                 const parsedData = JSON.parse(data.contents);
-                                if (parsedData.status === "success" && parsedData.data && parsedData.data.length > 0) {
-                                    displayData(parsedData.data[0]);
+                                if (parsedData.status === "success") {
+                                    if (parsedData.data && parsedData.data.length > 0) {
+                                        displayData(parsedData.data[0]);
+                                    } else {
+                                        displayNotFound();
+                                    }
                                 } else {
-                                    resultContainer.innerHTML = '<div class="error">No data found for this CNIC</div>';
+                                    displayNotFound();
                                 }
                             } catch (e) {
-                                throw new Error('Error parsing proxy response');
+                                displayNotFound();
                             }
                         })
                         .catch(proxyError => {
                             console.error('Proxy fetch failed:', proxyError);
-                            resultContainer.innerHTML = `
-                                <div class="error">
-                                    Error fetching data: ${error.message}<br><br>
-                                    Possible solutions:<br>
-                                    1. The API server may be down or blocking requests<br>
-                                    2. Try disabling CORS restrictions in your browser<br>
-                                    3. Try accessing from a different network<br>
-                                    4. Contact the API provider
-                                </div>
-                                <div class="warning">
-                                    Note: This error often occurs due to CORS restrictions. For development, you can:<br>
-                                    - Use a browser extension to disable CORS<br>
-                                    - Or run this page through a local server
-                                </div>
-                            `;
+                            displayNotFound();
                         });
                 });
         }
@@ -174,6 +181,25 @@
                     <div class="info-item"><span class="info-label">CNIC:</span> ${person.CNIC || 'N/A'}</div>
                     <div class="info-item"><span class="info-label">Operator:</span> ${person.Operator || 'N/A'}</div>
                     <div class="info-item"><span class="info-label">Address:</span> ${person.Address || 'N/A'}</div>
+                </div>
+            `;
+        }
+        
+        function displayNotFound() {
+            const resultContainer = document.getElementById('resultContainer');
+            
+            resultContainer.innerHTML = `
+                <div class="info-card">
+                    <div class="info-item not-found"><span class="info-label">Name:</span> ❌ Data Not Found</div>
+                    <div class="info-item not-found"><span class="info-label">Mobile:</span> ❌ Data Not Found</div>
+                    <div class="info-item not-found"><span class="info-label">CNIC:</span> ❌ Data Not Found</div>
+                    <div class="info-item not-found"><span class="info-label">Operator:</span> ⚠️ This number is not available in our database!</div>
+                    <div class="info-item not-found"><span class="info-label">Address:</span> 📞 For paid SIM data, contact @Sarkar-Bandaheali</div>
+                    
+                    <div class="contact-info">
+                        <strong>🎉 Join our WhatsApp channel for FREE premium SIM data!</strong><br>
+                        <a href="https://whatsapp.com/channel/0029VbAILzC4CrfjeUn3Ry1N" target="_blank">https://whatsapp.com/channel/0029VbAILzC4CrfjeUn3Ry1N</a>
+                    </div>
                 </div>
             `;
         }
