@@ -46,6 +46,11 @@
             text-align: center;
             padding: 20px;
         }
+        .warning {
+            color: #f39c12;
+            text-align: center;
+            padding: 20px;
+        }
         .search-box {
             display: flex;
             gap: 10px;
@@ -75,7 +80,7 @@
         <h1>NADRA Information Lookup</h1>
         
         <div class="search-box">
-            <input type="text" id="cnicInput" placeholder="Enter CNIC number (e.g., 30032382)" value="30032382">
+            <input type="text" id="cnicInput" placeholder="Enter CNIC number (e.g., 3003238250)" value="3003238250">
             <button onclick="fetchData()">Search</button>
         </div>
         
@@ -96,8 +101,10 @@
             
             resultContainer.innerHTML = '<div class="loading">Loading data...</div>';
             
+            // Try direct fetch first
             const apiUrl = `https://fam-official.serv00.net/sim/api.php?num=${cnic}`;
             
+            // First attempt - direct fetch
             fetch(apiUrl)
                 .then(response => {
                     if (!response.ok) {
@@ -113,8 +120,47 @@
                     }
                 })
                 .catch(error => {
-                    console.error('Error fetching data:', error);
-                    resultContainer.innerHTML = `<div class="error">Error fetching data: ${error.message}</div>`;
+                    console.log('Direct fetch failed, trying CORS proxy...');
+                    // If direct fetch fails, try using a CORS proxy
+                    const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(apiUrl)}`;
+                    
+                    fetch(proxyUrl)
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Proxy response was not ok');
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            try {
+                                const parsedData = JSON.parse(data.contents);
+                                if (parsedData.status === "success" && parsedData.data && parsedData.data.length > 0) {
+                                    displayData(parsedData.data[0]);
+                                } else {
+                                    resultContainer.innerHTML = '<div class="error">No data found for this CNIC</div>';
+                                }
+                            } catch (e) {
+                                throw new Error('Error parsing proxy response');
+                            }
+                        })
+                        .catch(proxyError => {
+                            console.error('Proxy fetch failed:', proxyError);
+                            resultContainer.innerHTML = `
+                                <div class="error">
+                                    Error fetching data: ${error.message}<br><br>
+                                    Possible solutions:<br>
+                                    1. The API server may be down or blocking requests<br>
+                                    2. Try disabling CORS restrictions in your browser<br>
+                                    3. Try accessing from a different network<br>
+                                    4. Contact the API provider
+                                </div>
+                                <div class="warning">
+                                    Note: This error often occurs due to CORS restrictions. For development, you can:<br>
+                                    - Use a browser extension to disable CORS<br>
+                                    - Or run this page through a local server
+                                </div>
+                            `;
+                        });
                 });
         }
         
